@@ -42,54 +42,107 @@ The **RFID Door Lock System** works by scanning an RFID tag using the **MFRC522 
 
 The Arduino code initializes the RFID reader and waits for the user to scan an authorized RFID tag. If the tag matches the stored ID, the servo motor unlocks the door. Unauthorized tags trigger a buzzer sound as an alert.
 
+
+ ## 🔹 Source Code and Files
+
+## 🔹 Source Code
+
+```cpp
+#include <Servo.h>
+#include <LiquidCrystal_I2C.h>
 #include <SPI.h>
 #include <MFRC522.h>
 
 #define SS_PIN 10
 #define RST_PIN 9
-MFRC522 mfrc522(SS_PIN, RST_PIN);
+String UID = "15 75 FE 28";
+byte lock = 0;
+
+Servo servo;
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+MFRC522 rfid(SS_PIN, RST_PIN);
 
 void setup() {
-    Serial.begin(9600);
-    SPI.begin();      
-    mfrc522.PCD_Init();   
-    Serial.println("Scan RFID Tag");
+  Serial.begin(9600);
+  servo.write(70);
+  lcd.init();
+  lcd.backlight();
+  servo.attach(3);
+  SPI.begin();
+  rfid.PCD_Init();
 }
 
 void loop() {
-    if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
-        Serial.print("UID Tag: ");
-        for (byte i = 0; i < mfrc522.uid.size; i++) {
-            Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
-            Serial.print(mfrc522.uid.uidByte[i], HEX);
-        }
-        Serial.println();
-        mfrc522.PICC_HaltA();
-    }
-}
+  lcd.setCursor(4, 0);
+  lcd.print("Welcome!");
+  lcd.setCursor(1, 1);
+  lcd.print("Put your card");
 
+  if ( ! rfid.PICC_IsNewCardPresent())
+    return;
+  if ( ! rfid.PICC_ReadCardSerial())
+    return;
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Scanning");
+  Serial.print("NUID tag is :");
+  String ID = "";
+  for (byte i = 0; i < rfid.uid.size; i++) {
+    lcd.print(".");
+    ID.concat(String(rfid.uid.uidByte[i] < 0x10 ? " 0" : " "));
+    ID.concat(String(rfid.uid.uidByte[i], HEX));
+    delay(300);
+  }
+  ID.toUpperCase();
+
+  if (ID.substring(1) == UID && lock == 0 ) {
+    servo.write(70);
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Door is locked");
+    delay(1500);
+    lcd.clear();
+    lock = 1;
+  } else if (ID.substring(1) == UID && lock == 1 ) {
+    servo.write(160);
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Door is open");
+    delay(1500);
+    lcd.clear();
+    lock = 0;
+  } else {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Wrong card!");
+    delay(1500);
+    lcd.clear();
+  }
+}
+```
 
 ## 🔹 Circuit Diagram
 ![Circuit Diagram](rfid_dl.png)
 
 🔹 How It Works
 
-1. Scan the RFID tag: Place the RFID tag near the RFID reader.
+   1. Scan the RFID tag: Place the RFID tag near the RFID reader.
 
 
-2. If the tag is authorized, the servo motor unlocks the door.
+   2. If the tag is authorized, the servo motor unlocks the door.
 
 
-3. If the tag is unauthorized, the system triggers a buzzer for an alert.
+   3. If the tag is unauthorized, the system triggers a buzzer for an alert.
 
 
 
 🔹 Future Enhancements
 
-Add password protection for extra security.
+ - Add password protection for extra security.
 
-Implement email or SMS notifications for access logs.
+ - Implement email or SMS notifications for access logs.
 
-Integrate with mobile app for remote access.
+ - Integrate with mobile app for remote access.
 
-Expand the system to handle multiple RFID tags and users.
+ - Expand the system to handle multiple RFID tags and users.
