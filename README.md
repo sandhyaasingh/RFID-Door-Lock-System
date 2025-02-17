@@ -23,9 +23,10 @@ The **RFID Door Lock System** works by scanning an RFID tag using the **MFRC522 
 - ✅ **Expandability**: Can be integrated with additional security features.
 
 ## 🔹 Installation & Setup
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/your-repository.git
+
+![Installation & Setup](rfid.png)
+
+1. Setup the components as shown in the above diagram.
 
 2. Upload the provided Arduino code to your Arduino Uno using the Arduino IDE.
 
@@ -67,9 +68,9 @@ void loop() {
     }
 }
 
-🔹 Circuit Diagram
 
-
+## 🔹 Circuit Diagram
+![Circuit Diagram](rfid_dl.png)
 
 🔹 How It Works
 
