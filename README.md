@@ -1,5 +1,4 @@
 # RFID Door Lock System 🚪🔒
-
 This project is an **RFID-based door lock system** that uses RFID technology to provide secure access. It controls the door lock by reading RFID tags and granting access only to authorized users.
 
 ## 🔹 Description
@@ -22,31 +21,17 @@ The **RFID Door Lock System** works by scanning an RFID tag using the **MFRC522 
 - ✅ **Low cost**: Affordable components for secure access control.
 - ✅ **Expandability**: Can be integrated with additional security features.
 
-## 🔹 Installation & Setup
-
+## 🔹 Installation & Setup:
 ![Installation & Setup](rfid.png)
-
 1. Setup the components as shown in the above diagram.
-
 2. Upload the provided Arduino code to your Arduino Uno using the Arduino IDE.
-
-
 3. Connect the components as shown in the circuit diagram.
-
-
 4. Power the system with a 5V supply to test the setup.
 
-
-
-🔹 Code Overview
-
+## 🔹 Code Overview:
 The Arduino code initializes the RFID reader and waits for the user to scan an authorized RFID tag. If the tag matches the stored ID, the servo motor unlocks the door. Unauthorized tags trigger a buzzer sound as an alert.
 
-
- ## 🔹 Source Code and Files
-
-## 🔹 Source Code
-
+ 🔹 Source Code
 ```cpp
 #include <Servo.h>
 #include <LiquidCrystal_I2C.h>
@@ -122,27 +107,16 @@ void loop() {
 }
 ```
 
-## 🔹 Circuit Diagram
-![Circuit Diagram](rfid_dl.png)
+## 🔹 Final Setup:
+![Finalt Setup](rfid_final.png)
 
-🔹 How It Works
-
+## 🔹 How It Works:
    1. Scan the RFID tag: Place the RFID tag near the RFID reader.
-
-
    2. If the tag is authorized, the servo motor unlocks the door.
-
-
    3. If the tag is unauthorized, the system triggers a buzzer for an alert.
 
-
-
-🔹 Future Enhancements
-
+## 🔹 Future Scope:
  - Add password protection for extra security.
-
  - Implement email or SMS notifications for access logs.
-
  - Integrate with mobile app for remote access.
-
  - Expand the system to handle multiple RFID tags and users.
