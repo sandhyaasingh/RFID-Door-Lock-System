@@ -108,7 +108,7 @@ void loop() {
 ```
 
 ## 🔹 Final Setup:
-![Finalt Setup](rfid_final.png)
+![Final Setup](rfid_final.png)
 
 ## 🔹 How It Works:
    1. Scan the RFID tag: Place the RFID tag near the RFID reader.
